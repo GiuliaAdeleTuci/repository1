@@ -5,6 +5,8 @@ library(sp)
 
 data(meuse)
 
+download.packages("ggplot2")
+
 # to look only at the beginning of the dataset
 head(meuse)
 
@@ -63,6 +65,34 @@ plot(country, cases, las=3, cex.axis=0.7)
 #ggplot2
 install.packages("ggplot2")
 library(ggplot2) #or require(ggplot2)
+
+#we saved the data SISTEMA 
+
+#download data from last time 
+#setting of the working directory 
+setwd("/Users/giulia/lab")
+#upload the previous workspace, 
+load("lesson3R.RData")
+
+#to see if there is the previous data using ls which means list 
+ls()
+#covid = works
+
+library(ggplot2)
+#on the website there are all the variables that you can use 
+
+data(mpg)
+head(mpg)
+#key components: data, aes=aestethics, geometry
+ggplot(mpg,aes(x=displ,y=hwy)) + geom_point()
+#let's change the geometry,use lines connecting points
+ggplot(mpg,aes(x=displ,y=hwy)) + geom_line()
+ggplot(mpg,aes(x=displ,y=hwy)) + geom_polygon()
+
+#let's use this with the covid data, size changes the dimension of the points according to a variable
+head(covid)
+ggplot(covid,aes(x=lon,y=lat,size=cases)) + geom_point()
+
 
 
 
