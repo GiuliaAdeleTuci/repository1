@@ -18,4 +18,81 @@ plot(d)
 #let's put the points inside this plot
 points(covids)
 
+# new lesson
+setwd("/Users/giulia/lab")
+load("lesson4R.RData")
+ls()
+
+#covids: point pattern
+#d: density map
+library(spatstat)
+
+plot(d)
+# now let's put the points of the covid on the plot 
+points(covids)
+
+#let's put the coast lines, upload as an external geographical file, we are going to use the vector: line 
+#using the data: coastline from iol 
+#we need rgdal to use vectors 
+library(rgdal)
+
+#now we can inport coastlines and assigne the function (ogr) to the object coastlines. we input vector lines (x0y0, x1y1 ...)
+coastlines <- readOGR("ne_10m_coastline.shp")
+
+#add = true so that it doesn't erease the previous data 
+plot(coastlines, add=T)
+#we are seing the density in the countries
+#changing the aspect of the map 
+#first we are changing the color palette, we are stating to the software what color scheme we are trying to use. c()
+#we can add the argument of the number of colors from yellow to red -> 100 is the max 
+cl <- colorRampPalette(c("yellow","orange","red"))(100)
+#then we change the color to the plot 
+plot(d, col=cl)
+#then we add the points and the coastlines
+points(covids)
+plot(coastlines, add=T)
+
+# excersise: new color ramp palette 
+gt <- colorRampPalette(c("green","light green"," light blue","purple"))(100)
+plot(d,col=gt, main="Densities of Covid19")
+points(covids)
+plot(coastlines, add=T)
+#to add the title main=""
+
+#number of colors 
+cll <- colorRampPalette(c("light green"," light blue","violet"))(5)
+plot(d,col=gt, main="Densities of Covid19")
+points(covids)
+plot(coastlines, add=T)
+
+#export
+pdf("covid_density.pdf")
+cll <- colorRampPalette(c("light green"," light blue","violet"))(100)
+plot(d,col=gt, main="Densities of Covid19")
+points(covids)
+plot(coastlines, add=T)
+# in the end you should close the process, to do so dev.off
+dev.off()
+
+#another option -> image 
+png("covid_density.png")
+cll <- colorRampPalette(c("light green"," light blue","violet"))(100)
+plot(d,col=gt, main="Densities of Covid19")
+points(covids)
+plot(coastlines, add=T)
+# in the end you should close the process, to do so dev.off
+dev.off()
+
+#pdf is more precise 
+
+
+
+
+
+
+
+
+
+
+
 
