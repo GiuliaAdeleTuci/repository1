@@ -9,7 +9,7 @@ biomes <- read.table("biomes.csv", header=T, sep=",")
 head(biomes)
 
 # we're making multivariate analysis now 
-# decorana -> detrended correspondence analysis, detrening means that we show the data in 2 dimensions
+# decorana -> detrended correspondence analysis, detrending means that we show the data in 2 dimensions
 multivar <- decorana(biomes) 
 plot(multivar) 
 
