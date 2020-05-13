@@ -31,3 +31,21 @@ dev.off
 pdf("faPAR.pdf")
 levelplot(faPAR10)
 dev.off
+
+########## day 2 
+load("faPAR.Rdata")
+# the original faPAR from copernicus is 2GB
+# faPAR10 has data from values: 0, 0.9400001  (min, max), several pixels,very heavy 
+# let's see the space needed for the copNDVI, 8 bit set 
+library(raster)
+library(rasterdiv)
+writeRaster(copNDVI, "copNDVI.tif")
+# only 5.5 MB -> better to use this one 
+
+# let's make a levelplot of the faPAR
+levelplot(faPAR10)
+
+
+
+
+
