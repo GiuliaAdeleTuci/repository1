@@ -44,4 +44,53 @@ plotRGB(snt, 4, 3, 2, stretch="Lin")
 plot(sd_snt, col=cl)
 # the second plot highlights the borders between environments, max variability 
 
+### lesson 2
+# same analysis with a field image on lichens, cladonia 
+setwd("/Users/giulia/lab")
+library(raster) 
+clad <- brick("cladonia_stellaris_calaita.JPG")
+plotRGB(clad,1,2,3, stretch="lin")  
+
+# we define the window 3x3 
+window <- matrix(1, nrow = 3, ncol = 3)
+window
+
+# now we use the focal function, it caluclates the values for the local cells 
+# we will apply it to a specific band of the image, we will use the very first band 
+pairs(clad) # to see how much they are correlated 
+
+# we can also use the pca 
+library(RStoolbox)
+cladpca <- rasterPCA(clad) # this was we have the first component that expalins 99% of it
+
+# we can use the cladpca to the the data which is the output of the function 
+cladpca 
+
+# let's see how much info is explaine dby the first pca 
+summary(cladpca$map) 
+# 98% is explained bu the first component 
+plotRGB(cladpca$map, 1, 2, 3, stretch="lin")
+
+# let's make the measurement of the cladonia through the moving window, to see the diversity 
+sd_clad <- focal(cladpca$map$PC1, w=window, fun=sd)
+
+PC1_agg <- aggregate(cladpca$map$PC1, fact=10)
+sd_clad_agg <- focal(PC1_agg, w=window, fun=sd)
+
+par(mfrow=c(1,2))
+cl <- colorRampPalette(c('yellow', 'violet', 'black'))(100) 
+plot(sd_clad, col=cl)
+plot(sd_clad_agg, col=cl)
+
+# the meaning: we see that all the microvariability in the strucutre of cladonia can be measured, it tells the complexity of the structure of the organism
+
+plotRGB(clad, 1,2,3, stretch="lin")
+plot(sd_clad_agg, col=cl)
+ 
+
+
+
+
+
+
 
