@@ -10,7 +10,7 @@ library(rasterVis)
 data(copNDVI) # A RasterLayer of the global average NDVI value per pixel 
 plot(copNDVI)
 
-#we need to reclassify the data by removing the data from 253:255 given the NA value
+#we need to reclassify the data by removing the data from 253:255 given the NA value, so we are removing water.
 copNDVI <- reclassify(copNDVI, cbind(253:255, NA))
 levelplot(copNDVI)
 
