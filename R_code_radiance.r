@@ -1,5 +1,6 @@
+## R code for radiance 
 library(raster) 
-# we are making a 2x2 raster 
+# we are creating a 2x2 raster 
 toy <- raster(ncol=2, nrow=2, xmn=1, xmx=2, ymn=1, ymx=2) 
 # now we are putting some values in the raster toy 
 values(toy) <- c(1.13,1.44,1.55,3.4)
@@ -12,7 +13,7 @@ toy2bits <- stretch(toy,minv=0,maxv=3)
 storage.mode(toy2bits[]) = "integer"
 plot(toy2bits)
 text(toy2bits, digits=2)
-# we changed the original, the lower the n of bits we use the lower the difference between pizels 
+# we changed the original, the lower the n of bits we use, the lower the difference between pixels 
 
 # let's use 4 bits, 16 values possible
 toy4bits <- stretch(toy,minv=0,maxv=15)
@@ -40,7 +41,7 @@ text(toy4bits, digits=2)
 plot(toy8bits)
 text(toy8bits, digits=2)
 
-dev.off
+dev.off()
 
 library(rasterdiv)
 plot(copNDVI)
