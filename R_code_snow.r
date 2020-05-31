@@ -3,13 +3,13 @@ setwd("/Users/giulia/lab")
 library(raster)
 library(ncdf4)
 
-# let's import the image from copernicus 
+# let's import the image from copernicus (we previously dowloaded it from the website)
 snowmay <- raster("c_gls_SCE_202005260000_NHEMI_VIIRS_V1.0.1.nc")
 cl <- colorRampPalette(c('darkblue','blue','light blue'))(100) 
 
 plot(snowmay, col=cl) 
 
-#to have info about the n of pixels
+# to have info about the n of pixels
 snowmay 
 
 ### how to import multiple data together form copernicus 
@@ -31,7 +31,7 @@ plot(snow2020, col=cl)
 
 ## fast way 
 # function lapply -> applies a function considering a list of files/objects all together  
-# first me have to make the list of files -> list.files, with a common pattern 
+# first we have to make the list of files -> list.files, with a common pattern 
 rlist <- list.files(pattern="snow")
 rlist
 
@@ -46,7 +46,7 @@ library(rgdal)
 
 # define the extent
 ext <- c(-180, 180, -90, 90)
-extension <- crop(snow.multitemp, ext)
+extension <- crop(snow.multitemp, ext) # crop returns a geographic subset of an object
     
 # make a time variable (to be used in regression)
 time <- 1:nlayers(snow.multitemp)
