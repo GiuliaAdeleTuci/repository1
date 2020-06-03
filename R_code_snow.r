@@ -61,9 +61,41 @@ predicted.snow.2025.norm <- predicted.snow.2025*255/53.90828
 source("prediction.r")
 
 
+### lesson 2
+# exercise: import all the snow cover images together
+library(raster) 
+rlist <- list.files(pattern="snow")
+import <- lapply(rlist, raster) 
+snow.multitemp <- stack(import)
+cl <- colorRampPalette(c('darkblue','blue','light blue'))(100)
+plot(snow.multitemp, col=cl)
+
+# let's import the prediction image from last lesson 
+prediction <- raster("predicted.2025.norm.tif")
+plot(prediction, col=cl)
+
+# how to export the output, first you write the name of what you want to export, and then the name you want it saved with. 
+writeRaster(prediction, "final.tif")
+# this function creates the data, it's not only an image. it's the opposite of the raster function  
+
+# or to have a pdf of the graph
+final.stack <- stack(snow.multitemp, prediction)
+# we are stacking all together, at the end we will have a stack of the snow.multitemp + the prediciton (6 images). 
+plot(final.stack, col=cl)
+
+# now we export this graph with all the plots 
+pdf("my_final_graph.pdf") # this is the name 
+plot(final.stack, col=cl) # this goes inside the pdf
+dev.off()
+
+png("my_final_graph.png") # this is the name 
+plot(final.stack, col=cl) # this goes inside the pdf
+dev.off()
 
 
 
+
+ 
 
 
 
