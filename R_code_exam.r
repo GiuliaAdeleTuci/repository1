@@ -16,14 +16,16 @@
 # 13. R code NO2
 # 14. R code interpolation 
 # 15. R code sdm 
+## R code exam project 
 
+##############################################################################################################
 
 ## 1. R code first 
 # first R code
 install.packages("sp") # function to install packages into R, we have to use the quotes because we go "outside R", Quotes are used for general text 
 
 library(sp) # to recall the package, can also use require() 
-data(meuse)
+data(meuse) # to load the meuse dataset 
 
 # seeing how the mause dataset is structured:
 meuse
@@ -33,9 +35,9 @@ head(meuse)
 
 # let's plot two variables together to see if they are correlated
 # see if zinc concentration di related to the copper
-attach(meuse) # first I have to attach the set to R to work with the data.
-plot(zinc,copper) # to see if two variables are correlated I have to use the plot function 
-plot(zinc,copper,col="red")
+attach(meuse) # first I have to attach the set to R to work with the data directly.
+plot(zinc,copper) # to see if two variables are correlated I have to use the plot function, which creates a graph 
+plot(zinc,copper,col="red") # col = changes the color of the points, i have to put the name of the color between "" because the name is ouside R, inside R colors are codes 
 plot(zinc,copper,col="red",pch=19) # pch = point character, to change to symbols  
 plot(zinc,copper,col="red",pch=19,cex=2) # cex = to change the dimension of the symbols 
 
@@ -43,7 +45,7 @@ plot(zinc,copper,col="red",pch=19,cex=2) # cex = to change the dimension of the 
 ##############################################################################################################
 ##############################################################################################################
 
-## 2. multipanle in R: second lecture of monitoring
+## 2. multipanel in R: second lecture of monitoring
 # we use multipanel to make multiple plots together 
 
 install.packages("sp")
@@ -51,12 +53,11 @@ install.packages("GGally")
 library(GGally)
 library(sp) # or require(sp)
 
-data(meuse) # there is a dataset available
-
-attach(meuse) # to attach the dataset, to be able to use its data
+data(meuse) 
+attach(meuse)
 
 # excersise: see the names of the variables and plot cadmium and zinc 
-names(meuse)
+names(meuse) # to see the names of the variables in the dataset 
 head(meuse)
 plot(cadmium,zinc,pch=6,col="red",cex=2)
 
@@ -67,9 +68,9 @@ plot(cadmium,zinc,pch=6,col="red",cex=2)
 # To plot all variables against the others for each and for the all dataset we use pairs()
 pairs(meuse)
 
-# we are going to prettify the graphs, make it smaller 
+# we are going to prettify the graphs 
 
-pairs(~cadmium+copper+lead+zinc,data=meuse) 
+pairs(~cadmium+copper+lead+zinc,data=meuse) # we are stating which components and which dataset we want to use 
 pairs(meuse[,3:6]) # We can also plot directly from 2nd column to 6th colum → , = start from; : = until 
 
 # excersise: prettify this graph 
@@ -91,29 +92,26 @@ ggpairs([,3:6])
 # we're going to show other lesson's points in space
 
 library(sp)
-
 data(meuse)
+download.packages("ggplot2") # ggplot2 is a package that allows to create some graphs 
 
-download.packages("ggplot2")
-
-# to look only at the beginning of the dataset
 head(meuse)
 
-# we're going to show the points in space since they have coordinates so it is a spatial dataset
-# coordinates and explain we are using x and y 
+# we're going to show the points in space since they have coordinates (it is a spatial dataset)
+# coordinates: we set the dataset and explain we are using x and y as coordinates 
 # to write ˜ it is alt+n (on mac)
 coordinates(meuse) = ~x+y 
 
 # plot of coordinates, only to see the points in space  
 plot(meuse)
 
-# plot of the sp package, explain also the variable we are going to use
+# plot of the sp package, explain also the dataset and the variable we are going to use
 spplot(meuse, "zinc") 
 
 # excercise: spatial amount of copper + change the title with main
 spplot(meuse, "copper", main = "Copper Concentration")
 
-# function to change the size of points, the bigger the points the higher the amount of zinc
+# bubble = function to change the size of points, the bigger the points the higher the amount of zinc
 bubble(meuse, "zinc")
 bubble(meuse, "zinc", main = "Zinc Concentration")
 
@@ -129,7 +127,7 @@ bubble(meuse, "copper", main = "Copper Concentration", col = "red")
 setwd("/Users/giulia/lab")
 
 # we name the dataset covid and link it with the data using <-, so we are linking a function with an object
-# plus we state that the first line is the description of the columns
+# plus we state that the first line is the description of the columns, so it's the header 
 covid <- read.table("covid_agg.csv", head=TRUE) 
 
 head(covid)
@@ -139,7 +137,7 @@ attach(covid) # fist we attach to be able to use the dataset
 plot(country,cases)
 
 # in case you don't attach covid you should write plot(covid$country,covid$cases)
-# to see all the countries we should make the labels of the countries vertical with labels which is called las
+# to see all the countries we should make the labels of the countries vertical with las
 plot(country, cases, las=0) # parallel labels
 plot(country, cases, las=1) # all horizontal labels
 plot(country, cases, las=2) # labels are perpendicular 
@@ -149,11 +147,10 @@ plot(country, cases, las=3) # labels are vertical
 plot(country, cases, las=3, cex.axis=0.5)
 plot(country, cases, las=3, cex.axis=0.7)
 
-### let's plot spatially using ggplot
+### let's plot spatially using ggplot2
 # to make a ggplot you need: data, aesthetic mapping which are the variables, type of symbol we want to use
 # ggplot2
-install.packages("ggplot2")
-library(ggplot2) #or require(ggplot2)
+library(ggplot2)
 
 # we saved the workspace from last lesson, so we just load it to have the data
 
@@ -163,22 +160,20 @@ setwd("/Users/giulia/lab")
 # upload the previous workspace, 
 load("lesson3R.RData")
 
-#to see if there is the previous data using ls which means list 
+# to see if there is the previous data using ls which means list 
 ls()
 # covid is present so the operation worked
-
-library(ggplot2)
-# on the website there are all the variables that you can use 
 
 data(mpg)
 head(mpg)
 # key components: data, aes=aestethics, geometry
 ggplot(mpg,aes(x=displ,y=hwy)) + geom_point()
-# let's change the geometry,use lines connecting points
+
+# let's change the geometry, use lines connecting points
 ggplot(mpg,aes(x=displ,y=hwy)) + geom_line()
 ggplot(mpg,aes(x=displ,y=hwy)) + geom_polygon()
 
-# let's use this with the covid data, size changes the dimension of the points according to a variable
+# let's use this with the covid data, size changes the dimension of the points according to the variable cases 
 head(covid)
 ggplot(covid,aes(x=lon,y=lat,size=cases)) + geom_point()
 
@@ -189,12 +184,12 @@ ggplot(covid,aes(x=lon,y=lat,size=cases)) + geom_point()
 ## 4. R code point pattern analysis 
 ### Point pattern analysis: Density Map
 
-install.packages("spatstat")
+install.packages("spatstat") # spatstat is a package for the statistical analysis of spatial point patterns 
 library(spatstat)
 attach(covid)
 head(covid)
 
-# let's give a name to what we are about to make -> covids. ppp is planet point pattern 
+# let's give a name to what we are about to make -> covids. ppp is planar point pattern 
 # then explain x and y variables and the range for the numbers with c
 covids <- ppp(lon, lat, c(-180,180), c(-90,90))
 # if i put ?ppp R will explain the function -> Creates an object of class "ppp" representing a point pattern dataset in the two-dimensional plane.
@@ -226,7 +221,7 @@ points(covids)
 # we need rgdal to use vectors 
 library(rgdal)
 
-# now we can inport coastlines and assigne the function (ogr) to the object coastlines. we input vector lines (x0y0, x1y1 ...)
+# now we can inport coastlines and assign the function (ogr) to the object coastlines. we input vector lines (x0y0, x1y1 ...)
 coastlines <- readOGR("ne_10m_coastline.shp")
 
 # add = true so that it doesn't erease the previous data 
@@ -283,7 +278,7 @@ dev.off()
 ## 5. R code for multivariate analysis 
 
 setwd("/users/giulia/lab")
-#install.packeges("vegan")
+install.packeges("vegan") # vegan is a package with a lot of tools for ecological analysis and datasets 
 library(vegan)
 
 # we downloaded the dataset, now we need to make r read the table, we associate the name biomes with the functions, sep means that the columns in the original file are separated with a comma
@@ -298,7 +293,7 @@ plot(multivar)
 # let's see how much of the analysis we are seing of our dataset
 multivar
 # Eigenvalues is the amount of perception of the data you have, DCA1 is the proportion of the set we see, 0.5 so 50%, DCA2 is the second dimention etc. in totale in this case we see 82% whihc is a high amount
-# we can see the relationships between these species form their position in the graph 
+# we can see the relationships between these species from their position in the graph 
 # basically we are seing the starting points of all the 20 dimensions in 2 dimensions
 # let's use the other dataset of the biome types
 biomes_types <- read.table("biomes_types.csv", head=T, sep=",")
@@ -306,7 +301,7 @@ head(biomes_types)
 
 attach(biomes_types)
 # we do this because we need to use a column of the dataset, with the function ordiellipse
-# we'll draw an ellipse containing all the plots of the biome
+# it'll draw an ellipse containing all the plots of the biome
 # we declare the column we are going to use, then 4 different colors for the 4 different biomes, we are using the codes of the colors
 # we could also do col=c("red","green","black")
 
@@ -323,8 +318,8 @@ ordispider(multivar, type, col=1:4, label = TRUE)
 ## 6. R code for remote sensing data 
 # we downloaded the data 
 # install library raster
-install.packages("raster")
-install.packages("RStoolbox")
+install.packages("raster") # package to use and create raster layers 
+install.packages("RStoolbox") # package that simplifies the performing of standard remote sensing tasks in R
 
 # or to install them togher 
 install.packages(c("raster","RStoolbox"))
@@ -332,7 +327,8 @@ install.packages(c("raster","RStoolbox"))
 setwd("/Users/giulia/lab")
 library(raster)
 
-# we are going to import some images of satellite images of an area of Brasil + we assign a name. since these are satellite images, so they have more layers we use brick
+# we are going to import some images of satellite images of an area of Brasil + we assign a name. since these are satellite images and so they have more layers we use brick
+# brick imports different layers at a time like satellites with more bands
 p224r63_2011 <- brick("p224r63_2011_masked.grd")
 
 plot(p224r63_2011) # we can see the plot of the different reflectance of bands, now we change the color ramp palette
@@ -346,8 +342,8 @@ plot(p224r63_2011, col=cl)
 # B4: near infrared NIR
 
 # let's plot these 4 bands separetely 
-# multiframe of different plots all together -> function par
-# and make a new col ramp palette, to see colors on R colors()
+# multiframe of different plots all together -> function par, mfrow specifies the n of lines and columns 
+# and make a new col ramp palette, to see colors on R: colors()
 par(mfrow=c(2,2))
 clb <- colorRampPalette(c("dark blue","blue","light blue"))(100)
 # and plot, $ is used to link symbols 
@@ -372,7 +368,7 @@ par(mfrow=c(4,1)) # to have them all in a column
 dev.off()
 
 # we are goin to mount the bands 
-# plotRGB, with linear stretching, and associtaed the bands with the respective colors
+# plotRGB, with linear stretching, and associate the bands with the respective colors
 plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
 # how we would see it with our eyes
 
@@ -385,7 +381,6 @@ plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
 
 # now NIR in the blue component
 plotRGB(p224r63_2011, r=3, g=2, b=4, stretch="Lin")
-
 
 ######## second lesson 
 setwd("/Users/giulia/lab")
@@ -406,7 +401,7 @@ plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
 
 # this function enhances the clouds and in general the noise (that's why the rivers are greenish), in 1988 the humidity was higher becuase of the higher functioning of the forest, hence the disturbance. 
 # as a result is shows evaportaspiration 
-plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="hist")
+plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="hist") 
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="hist")
 
 # we are going to use the vegetation index
@@ -415,6 +410,7 @@ cl <- colorRampPalette(c("purple", "light blue", "pink"))(100)
 plot(dvi2011, col=cl)
 
 # the dvi is not omogeneous, it is sensible to the amount of water as well 
+# NDVI = (NIR - RED) / (NIR - RED)
 # excersise: dvi for 1988
 dvi1988 <- (p224r63_1988$B4_sre - p224r63_1988$B3_sre)
 cl <- colorRampPalette(c("purple", "light blue", "pink"))(100)
@@ -438,12 +434,6 @@ plotRGB(p224r63_2011res, r=4, g=3, b=2, stretch="Lin")
 plotRGB(p224r63_2011res100, r=4, g=3, b=2, stretch="Lin")
 
 # sometimes high detail is equal to high noise = sometimes it's better to have medium resolution 
-
-##############################################################################################################
-##############################################################################################################
-##############################################################################################################
-
-## 6. 
 
 ##############################################################################################################
 ##############################################################################################################
@@ -487,17 +477,17 @@ plotRGB(p224r63_2011, r=5, g=4, b=3, stretch="Lin")
 
 # let's see if the bands are correlated to eachother 
 # being correlated means that you are following the pattern of another variable, 
-# we are going to see if band3 is correlated to band1 so if having small values of B1 is related to the values on B3 
+# we are going to see if band3 is correlated to band1, so if having small values of B1 is related to the values on B3 
 # first we need to know the names of those bands 
 names(p224r63_2011)
 #"B1_sre" "B2_sre" "B3_sre" "B4_sre" "B5_sre" "B6_bt"  "B7_sre"
 
-# $ links the bands to the image 
+# $ links the bands to the whole image 
 plot(p224r63_2011$B1_sre, p224r63_2011$B3_sre)
 # we see very high correlation, we can then see the correlation coefficient R. 
 # positive correlation: R=1, flat correlation: R=0, negative correlation: R=-1
 # in this case it is very high 
-# in this case 90% of the data is in the PC1 and only a small amount on th PC2 (proncipal component) 
+# in this case 90% of the data is in the PC1 and only a small amount on th PC2 (principal component) 
 
 # let's see this in R
 
@@ -551,8 +541,8 @@ plot(difpca$PC1, col=cldif)
 # energy
 # chemical cycling
 # proxies
-install.packages("rasterdiv")
-install.packages("rasterVis")
+install.packages("rasterdiv") 
+install.packages("rasterVis") # is a package that implements visualization methods for rasters 
 library(rasterdiv)
 library(rasterVis) 
 
@@ -564,8 +554,7 @@ copNDVI <- reclassify(copNDVI, cbind(253:255, NA))
 levelplot(copNDVI)
 
 copNDVI10 <- aggregate(copNDVI, fact=10)
-levelplot(copNDVI10)
-# to make the map smoother, with lower resolution 
+levelplot(copNDVI10) # to make the map smoother, with lower resolution 
 
 #10k pixels together, very coarse and low detail 
 copNDVI100 <- aggregate(copNDVI, fact=100)
@@ -588,6 +577,7 @@ par(mfrow=c(1,2))
 plotRGB(defor1, r=1, g=2, b=3, stretch="Lin") # Red-Green-Blue plot of a multi-layered Raster object
 plotRGB(defor2, r=1, g=2, b=3, stretch="Lin")
 
+# to create the difference between the first and second one, later we'll plot it
 #defor1_.1 etc are the names of the band, i can obtain them by running on R only the name of the object (ex. defor1)
 dvi1 <- defor1$defor1_.jpg.1 - defor1$defor1_.jpg.2
 dvi2 <- defor2$defor2_.jpg.1 - defor2$defor2_.jpg.2
@@ -622,7 +612,7 @@ plot(toy)
 text(toy, digits=2) # only two numbers in the decimals 
 
 toy2bits <- stretch(toy,minv=0,maxv=3) 
-# to only use integer numbers we use the function 
+# to only use integer numbers we use the function:  
 storage.mode(toy2bits[]) = "integer"
 plot(toy2bits)
 text(toy2bits, digits=2)
@@ -689,7 +679,7 @@ levelplot(faPAR10)
 
 # we see a difference from the previous graph -> we had high NDVI in the equator and also in the forest in the north (the ones with the structure not complex in the 3D)
 # instead now the huge amount of photosynthesis is in the equator since in this area all the light is used by plants (thanks to the 3D structure) while in the northern forests the values are smaller. 
-# in those forests with low 3D structure some part of the light is not used and goe into the soil.
+# in those forests with low 3D structure some part of the light is not used and goes into the soil.
 
 # to save images as pdf 
 pdf("copNDVI.pdf")
@@ -713,10 +703,9 @@ writeRaster(copNDVI, "copNDVI.tif")
 # let's make a levelplot of the faPAR
 levelplot(faPAR10)
 
-
 ######## day 3 
 # linear model between faPAR and NDVI, regression model
-erosion <- c(12, 14, 16, 24, 26, 40, 55, 67)
+erosion <- c(12, 14, 16, 24, 26, 40, 55, 67) # we set some values 
 hm <- c(30, 100, 150, 200, 260, 340, 460, 600)
 plot(erosion, hm, col="red", pch=19, xlab="erosion", ylab="heavy metals", cex=2)
 
@@ -751,7 +740,7 @@ faPAR10p <- extract(faPAR10,pts)
 
 plot(copNDVIp,faPAR10p)
 
-model2 <- lm(faPAR10p~copNDVIp)
+model2 <- lm(faPAR10p~copNDVIp) # lm is used to fit linear models. It can be used to carry out regression and many more functions 
 summary(model2)
 # we see through the r squared and the p-value that the correlation is not random
 plot(copNDVIp,faPAR10p,col="green")
@@ -763,7 +752,7 @@ abline(model1,col="red")
 ##############################################################################################################
 
 ## 11. R code temp diversity, EBVs, focal on cladonia 
-### diversity measurement
+## diversity measurement
 setwd("/Users/giulia/lab") 
 
 library(raster)
@@ -778,9 +767,7 @@ plot(snt)
 #B4 NIR
 
 plotRGB(snt, 3, 2, 1, stretch="Lin") # like this we plot the image as the human eye would see it
-
-plotRGB(snt, 4, 3, 2, stretch="Lin") #NIR on top of red, vegetation is then colored red
-
+plotRGB(snt, 4, 3, 2, stretch="Lin") # NIR on top of red, vegetation is then colored red
 pairs(snt) # to produce a matrix of scatterplots 
 
 # for the PCA analysis 
@@ -794,12 +781,13 @@ plot(sntpca$map)
 
 plotRGB(sntpca$map, 1,2,3, stretch="Lin")
 
-# we're making use of the moving window on the PC1 to see the different sd
+# we're making use of the moving window on the PC1 to see the different standard deviation in the groups of pixels 
 # set the moving window of 5x5 pixels
 window <- matrix(1, nrow = 5, ncol = 5)
 window 
 
-# now we apply the window (focal measurement) to the PC1, the functions that can be used are several, we are using the standard deviation 
+# now we apply the window (focal measurement) to the PC1, the functions that can be used are several, we are using the standard deviation
+# the sd is useful to see the differences in variation in the different areas of the map 
 sd_snt <- focal(sntpca$map$PC1, w=window, fun=sd)
 
 cl <- colorRampPalette(c('dark blue','green','orange','red'))(100) 
@@ -850,7 +838,7 @@ cl <- colorRampPalette(c('yellow', 'violet', 'black'))(100)
 plot(sd_clad, col=cl)
 plot(sd_clad_agg, col=cl)
 
-# the meaning: we see that all the microvariability in the strucutre of cladonia can be measured, it tells the complexity of the structure of the organism
+# the meaning: we see that all the microvariability in the structure of cladonia can be measured, it tells the complexity of the structure of the organism
 
 plotRGB(clad, 1,2,3, stretch="lin")
 plot(sd_clad_agg, col=cl)
@@ -874,8 +862,8 @@ plot(snowmay, col=cl)
 # to have info about the n of pixels
 snowmay 
 
-### how to import multiple data together form copernicus 
-## slow manner, one by one using raster 
+## how to import multiple data together form copernicus 
+# slow manner, one by one using raster 
 setwd("/Users/giulia/lab/snow") 
 snow2000 <- raster("snow2000r.tif")
 snow2005 <- raster("snow2005r.tif")
@@ -945,11 +933,12 @@ final.stack <- stack(snow.multitemp, prediction)
 # we are stacking all together, at the end we will have a stack of the snow.multitemp + the prediciton (6 images). 
 plot(final.stack, col=cl)
 
-# now we export this graph with all the plots 
+# now we export this graph with all the plots, in pdf
 pdf("my_final_graph.pdf") # this is the name 
 plot(final.stack, col=cl) # this goes inside the pdf
 dev.off()
 
+# export in png
 png("my_final_graph.png") # this is the name 
 plot(final.stack, col=cl) # this goes inside the pdf
 dev.off()
@@ -963,7 +952,6 @@ dev.off()
 # we placed the files in a folder so that we can import them all together
 
 setwd("/Users/giulia/lab/no2") 
-
 library(raster)
 
 # we create a list of files 
@@ -985,9 +973,10 @@ par(mfrow=c(1,2))
 plot(EN$EN_0001, col=cl)
 plot(EN$EN_0013,col=cl)
 
-# we can also make a RGB space, putting the R = EN_0001, G=0007 and B=0013, so that if the levels in the beginning were higher we sill se it in red
-# in green we see the middle level and in blue the lastest values (march)
-# firts dev.off()
+# we can also make a RGB space, putting the R = EN_0001, G=0007 and B=0013, so that if the levels in the beginning were higher we will see it in red
+# in green we see the middle level and in blue the latest values (march)
+# firts 
+dev.off()
 plotRGB(EN, r=1, g=7, B=13, stretch='lin') 
 
 # let's make a difference map 
@@ -995,7 +984,7 @@ dif <- EN$EN_0013 - EN$EN_0001
 cld <- colorRampPalette(c('blue', 'white', 'red'))(100)
 plot(dif,col=cld)
 
-# let's make a boxplot of the whole stack
+# let's make a boxplot of the whole stack, to see the variation in a graphical way 
 boxplot(EN)
 
 # there are a lot of outliers, let's remove them 
@@ -1018,6 +1007,7 @@ plot(EN$EN_0001, EN$EN_0013)
 abline(0,1, col='red')
 # we see that most of the data are under the curve -> it decreased
 
+# let's do some analysis on the snow again 
 setwd("/Users/giulia/lab/snow")
 rlist <- list.files(pattern="snow20")
 rlist
@@ -1039,7 +1029,6 @@ abline(0,1, col='red')
 ##############################################################################################################
 
 ## 14. R code interpolation
-# R_code_interpolation
 
 # steps
 # step 1: explain to spatstat that we are going to use coordinates: ppp
@@ -1051,19 +1040,19 @@ library(spatstat)
 inp <- read.table("dati_plot55_LAST3.csv", sep=";", head=T)
 
 head(inp)
-attach(inp) #since we attached we don't need to use the $
+attach(inp) # since we attached we don't need to use the $
 plot(X,Y)
 # planar point pattern, explain the range of the coordinates, to see the min and max we use summary 
 summary(inp)
 inppp <- ppp(x=X, y=Y, c(716000,718000),c(4859000,4861000))
 
 marks(inppp) <- Canopy.cov # to label the single points, with the canopy cover 
-# for each pixel we'll make an estimate of its value
+# for each pixel we'll make an estimate of its value with Smooth which is used to perform spatial smoothing of spatial data
 canopy <- Smooth(inppp)
 plot(canopy)
-points(inppp, col="green")
+points(inppp, col="green") # to add the points to the image 
 
-# let's see the lichens which are an index for air quality 
+# let's see the lichens, which are an index for air quality 
 marks(inppp) <- cop.lich.mean
 lichs <- Smooth(inppp)
 plot(lichs)
@@ -1083,12 +1072,12 @@ points(inppp)
 plot(Canopy.cov, cop.lich.mean, col="red", pch=19, cex=2)
 # to make a graph to see the correlation 
 
- #### second analysis 
+#### second analysis on the psammofile dataset 
 inp.psam <- read.table("dati_psammofile.csv", sep=";", head=T)
 
 attach(inp.psam)
 
-summary(inp.psam)
+summary(inp.psam) # to see the names of the variables, to see what to plot 
 
 plot(E,N) # clumped pattern 
 inp.psam.ppp <- ppp(x=E,y=N,c(356450,372240),c(5059800,5064150))
@@ -1114,7 +1103,6 @@ file <- system.file("external/species.shp", package="sdm")
 species <- shapefile(file) # shapefile is a common datatype .shp
 
 # we are coupling the visual part and the points inside 
-
 species
 species$Occurrence # table with absence/presence of species, 0 or 1 
 plot(species)
@@ -1135,7 +1123,7 @@ plot(preds)
 cl <- colorRampPalette(c('blue','orange','red','yellow')) (100)
 plot(preds, col=cl)
 
-# we want to see where the species is present, we are doing this with every variable 
+# we want to see where the species is present, we are doing this with every variable to see if there is a correlation 
 plot(preds$elevation, col=cl)
 points(species[species$Occurrence == 1,], pch=16) 
 
@@ -1148,22 +1136,22 @@ points(species[species$Occurrence == 1,], pch=16)
 plot(preds$vegetation, col=cl) # this index is based on the red and infrared difference 
 points(species[species$Occurrence == 1,], pch=16)
 
-# model -> we put all the information together 
+# we create a model -> to put all the information together 
 
-d <- sdmData(train=species, predictors=preds)
+d <- sdmData(train=species, predictors=preds) # sdmData creates objects that holds species (single or multiple) and explanatory variates and more info 
 d # to have all the info about d 
 
 # sdm = species distribution model 
 # glm = generalized linear model, we are putting all together 
 m1 <- sdm(Occurrence ~ elevation + precipitation + temperature + vegetation, data=d, methods='glm') 
-p1 <- predict(m1, newdata=preds) # newdata is the argument that defines the predictors used fort he final prediction 
+p1 <- predict(m1, newdata=preds) # newdata is the argument that defines the predictors used for the final prediction 
 
 plot(p1, col=cl)
 points(species[species$Occurrence == 1,], pch=16)
 
 # this plot shows the probability of distribution of the species in space,
 # we see that the highest probability of having the species is in the parts where the species is actually present (from the data)
-# we see that there are some errors, area with low prediction with actually the presence of the species. 
+# we see that there are some errors, area with low prediction with actually the presence of the species. in fact this is just a statistical prediction. 
 
 # we can make the final stack with all the predictors and variables
 s1 <- stack(preds,p1)
@@ -1176,7 +1164,7 @@ plot(s1, col=cl)
 ##############################################################################################################
 ##############################################################################################################
 
-
+## R code exam project 
 
 
 
