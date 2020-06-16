@@ -82,4 +82,34 @@ pdf("aral_dif.pdf")
 plot(dif, col=cld, main="Difference 2000-2018")
 dev.off()
 
+# lake quality 
+setwd("/Users/giulia/pro/lake")
+
+rlist <- list.files(pattern="LWQ")
+rlist
+
+import <- lapply(rlist, raster) 
+
+lwq.multitemp <- stack(import)
+
+cl <- colorRampPalette(c("red","yellow","blue"))(100)
+plot(lwq.multitemp, col=cl)
+
+library(rgdal)
+
+# define the extent
+ext <- c(41,48, 56,63)
+extension <- crop(lwq.multitemp, ext)
+
+ext <- c(57,61, 42,47)
+extension <- crop(lwq.multitemp, ext)
+plot(extension)
+
+
+
+
+
+
+
+
 
