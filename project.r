@@ -40,7 +40,7 @@ plot(land.multitemp, col=cl)
 
 library(rgdal)
 
-ext <- c(41,48, 56,63)
+ext <- c(57,61, 42,47)
 extension <- crop(land.multitemp, ext)
 plot(extension)
 
@@ -104,6 +104,19 @@ extension <- crop(lwq.multitemp, ext)
 ext <- c(57,61, 42,47)
 extension <- crop(lwq.multitemp, ext)
 plot(extension)
+
+# save 
+cl <- colorRampPalette(c("blue","yellow","red"))(100)
+pdf("Lakewq.pdf")
+plot(extension, col=cld, main="Lake_Water_Quality 2016-2020")
+dev.off()
+
+## NDVI
+
+
+
+
+
 
 
 
