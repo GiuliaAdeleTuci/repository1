@@ -87,6 +87,8 @@ pdf("aralboxplot.pdf")
 boxplot(dif, outline=F, horizontal=T, axes=T, main="Boxplot_Variation_2000-2018")
 dev.off()
 
+## forse sto boxplot non va bene, forse non si deve fare della dif ma dei due insieme ????
+
 plot(Ar$aralsea_2000, Ar$aralsea_2018) 
 abline(0,1, col='red')
 # data is mainly over the red line => it increased
@@ -141,7 +143,24 @@ plotRGB(extension, r=3, g=2, b=1, stretch="Lin") # normal
 plotRGB(extension, r=4, g=3, b=2, stretch="Lin")
 
 ## devo farli separati il primo e l'ultimo e poi li comparo 
+ndvi16 <- brick("NDVI300_2016.nc")
+ndvi20 <- brick("NDVI300_2020.nc")
 
+par(mfrow=c(1,2)) 
+plotRGB(ndvi16, r=5, g=4, b=3, stretch="Lin")
+plotRGB(ndvi20, r=5, g=4, b=3, stretch="Lin")
+
+ndvi16_pca <- rasterPCA(ndvi16)
+plot(ndvi_pca$map)
+
+ndvi20_pca <- rasterPCA(ndvi20)
+plot(ndvi20_pca$map)
+difpca <- ndvi20_pca$map - ndvi16_pca$map
+plot(difpca)
+
+summary(ndvi16_pca$model) # se vedo che il PC1 copre abbastanza allora
+cldif <- colorRampPalette(c('blue','black','yellow'))(100)
+plot(difpca$PC1, col=cldif)
 
 
 
