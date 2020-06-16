@@ -147,20 +147,21 @@ ndvi16 <- brick("NDVI300_2016.nc")
 ndvi20 <- brick("NDVI300_2020.nc")
 
 par(mfrow=c(1,2)) 
-plotRGB(ndvi16, r=5, g=4, b=3, stretch="Lin")
+plotRGB(ndvi16, r=5, g=4, b=3, stretch="Lin") ## lentissimo rifare 
 plotRGB(ndvi20, r=5, g=4, b=3, stretch="Lin")
 
-ndvi16_pca <- rasterPCA(ndvi16)
-plot(ndvi_pca$map)
+## con ndvi pensavo di fare che li plotto in rgb e poi con il ir sul rosso e poi vedo la dif tipo 
+## alla fine ho fatto: cose visive aral, il boxplot va rifatto!
+## roba sulla land cover per vedere l'ambiente vicino -> desertico, vedi se è dovuto principalmetne al lago o no su internet!!
+## ho tanomalies e netprod con immagini vedi che fare (come aral)
+## ho ndvi, lswt, swi da copernicus vedi se usarli 
+## ho fatto anche i plot della qualità del lago con crop, vedi un po' cosa significano i valori 
+## è tutto in pro in giulia
+## due siti: copernicus e quello NASA, e quello con immagini aral 
+## vedi che altre robe di comandi fatti aggiungere. sicuro roba ndvi poi le altre cose sono se devo fare robe nuove più che altro 
+## ricordati alla fine di mettere il codice nel code exam e mettere dei commenti vaghi, più che altro sul perchè sto facendo le cose 
 
-ndvi20_pca <- rasterPCA(ndvi20)
-plot(ndvi20_pca$map)
-difpca <- ndvi20_pca$map - ndvi16_pca$map
-plot(difpca)
 
-summary(ndvi16_pca$model) # se vedo che il PC1 copre abbastanza allora
-cldif <- colorRampPalette(c('blue','black','yellow'))(100)
-plot(difpca$PC1, col=cldif)
 
 
 
