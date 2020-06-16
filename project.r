@@ -82,6 +82,19 @@ pdf("aral_dif.pdf")
 plot(dif, col=cld, main="Difference 2000-2018")
 dev.off()
 
+boxplot(dif, outline=F, horizontal=T, axes=T, main="Boxplot_Variation_2000-2018")
+pdf("aralboxplot.pdf")
+boxplot(dif, outline=F, horizontal=T, axes=T, main="Boxplot_Variation_2000-2018")
+dev.off()
+
+plot(Ar$aralsea_2000, Ar$aralsea_2018) 
+abline(0,1, col='red')
+# data is mainly over the red line => it increased
+pdf("aral_plot.pdf")
+plot(Ar$aralsea_2000, Ar$aralsea_2018, main="Plot_Variation_Area", pch=20, cex=0.3) 
+abline(0,1, col='red')
+dev.off()
+
 # lake quality 
 setwd("/Users/giulia/pro/lake")
 
@@ -112,9 +125,22 @@ plot(extension, col=cld, main="Lake_Water_Quality 2016-2020")
 dev.off()
 
 ## NDVI
+setwd("/Users/giulia/pro/ndvi")
 
+rlist <- list.files(pattern="NDVI")
+rlist
 
+import <- lapply(rlist, brick) 
 
+ndvi.multitemp <- stack(import)
+
+ext <- c(57,61, 42,47)
+extension <- crop(ndvi.multitemp, ext)
+
+plotRGB(extension, r=3, g=2, b=1, stretch="Lin") # normal
+plotRGB(extension, r=4, g=3, b=2, stretch="Lin")
+
+## devo farli separati il primo e l'ultimo e poi li comparo 
 
 
 
