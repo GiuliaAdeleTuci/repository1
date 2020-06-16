@@ -60,12 +60,26 @@ diff
 # quindi c'è stata variazione, più verso il - per altro => ??
 
 
-## proviamo con il lake water wuality 
+## proviamo con immagini sat del lago 
+setwd("/Users/giulia/pro/aral")
+rlist <- list.files(pattern="aralsea")
+rlist
+import <- lapply(rlist, raster) 
+Ar <- stack(import)
+plot(Ar)
+cl <- colorRampPalette(c("blue","yellow","brown"))(100)
 
+pdf("aral.pdf")
+plot(Ar, col=cl)
+dev.off()
 
+dif <- Ar$aralsea_2000 - Ar$aralsea_2018
 
+cld <- colorRampPalette(c('blue', 'white', 'red'))(100)
+plot(dif,col=cld)
 
-
-
+pdf("aral_dif.pdf")
+plot(dif, col=cld, main="Difference 2000-2018")
+dev.off()
 
 
