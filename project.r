@@ -119,43 +119,8 @@ pdf("Lakewq.pdf")
 plot(extension, col=cld, main="Lake_Water_Quality 2016-2020")
 dev.off()
 
-## NDVI
-setwd("/Users/giulia/pro/ndvi")
-
-ndvi16 <- brick("NDVI300_2016.nc")
-ndvi20 <- brick("NDVI300_2020.nc")
-
-ndvicrop16 <- crop(ndvi16, ext)
-ndvicrop20 <- crop(ndvi20, ext)
-
-par(mfrow=c(1,2)) 
-plotRGB(ndvi16, r=5, g=4, b=3, stretch="Lin") ## lentissimo rifare 
-plotRGB(ndvi20, r=5, g=4, b=3, stretch="Lin")
-
-
-## tentativo con immagini NASA 
-ndvi2000 <- brick("NDVI2020.TIFF")
-ndvi2020 <- brick("NDVI2000")
-
-ext <- c(57,61, 42,47)
-ndvicrop00 <- crop(ndvi2000, ext)
-ndvicrop20 <- crop(ndvi2020, ext)
-
-par(mfrow=c(1,2))
-plotRGB(ndvicrop00, r=3, g=2, b=1, stretch="Lin")
-plotRGB(ndvicrop20, r=3, g=2, b=1, stretch="Lin")
-
-
 ## 
-ndvi00 <- brick("c_gls_NDVI_200001010000_GLOBE_VGT_V2.2.1.nc")
-ndvi20 <- brick("c_gls_NDVI_202001010000_GLOBE_PROBAV_V2.2.1.nc")
-
-ndvicrop00 <- crop(ndvi00, ext)
-ndvicrop20 <- crop(ndvi20, ext)
-
-par(mfrow=c(1,2)) 
-plotRGB(ndvicrop00, r=5, g=4, b=3, stretch="Lin") 
-plotRGB(ndvicrop20, r=5, g=4, b=3, stretch="Lin")
+library(ncdf4)
 
 ## proviamo a fare fapar invece
 setwd("/Users/giulia/pro/fapar")
@@ -172,12 +137,37 @@ levelplot(faparcrop19)
 ## FA CACARE NON VA BENE 
 
 
+## ndvi 
+setwd("/Users/giulia/pro/ndvi")
+ndvi2000 <- brick("NDVI2020.TIFF")
+ndvi2020 <- brick("NDVI2000")
+ext <- c(57,61, 42,47)
+ndvicrop00 <- crop(ndvi2000, ext)
+ndvicrop20 <- crop(ndvi2020, ext)
 
+par(mfrow=c(1,2))
+cl <- colorRampPalette(c('darkblue','light blue','white'))(100)
+plot(ndvicrop00, col=cl, main="NDVI_2000")
+plot(ndvicrop20, col=cl, main="NDVI_2020")
 
+pdf("NDVI.pdf")
+par(mfrow=c(1,2))
+plot(ndvicrop00, col=cl, main="NDVI_2000")
+plot(ndvicrop20, col=cl, main="NDVI_2020")
+dev.off()
 
+dif <- ndvicrop00 - ndvicrop20 
+cld <- colorRampPalette(c('yellow','orange','red'))(100)
 
+png("NDVI_diff.png")
+plot(dif, col=cld, main="Difference_2000-2020_NDVI")
+dev.off()
 
-
+png("NDVI.png")
+par(mfrow=c(1,2))
+plot(ndvicrop00, col=cl, main="NDVI_2000")
+plot(ndvicrop20, col=cl, main="NDVI_2020")
+dev.off()
 ## con ndvi pensavo di fare che li plotto in rgb e poi con il ir sul rosso e poi vedo la dif tipo 
 
 ## roba sulla land cover per vedere l'ambiente vicino -> desertico, vedi se è dovuto principalmetne al lago o no su internet!!
@@ -187,7 +177,6 @@ levelplot(faparcrop19)
 ## due siti: copernicus e quello NASA, e quello con immagini aral 
 ## vedi che altre robe di comandi fatti aggiungere. sicuro roba ndvi poi le altre cose sono se devo fare robe nuove più che altro 
 ## ricordati alla fine di mettere il codice nel code exam e mettere dei commenti vaghi, più che altro sul perchè sto facendo le cose 
-
 
 
 
