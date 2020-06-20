@@ -111,30 +111,16 @@ library(rgdal)
 # define the extent
 ext <- c(57,61, 42,47)
 extension <- crop(lwq.multitemp, ext)
-plot(extension)
+plot(extension, col=cl, main="Lake_Water_Quality 2016-2020")
 
 # save 
 cld <- colorRampPalette(c("blue","yellow","red"))(100)
 pdf("Lakewq.pdf")
-plot(extension, col=cld, main="Lake_Water_Quality 2016-2020")
+plot(extension, col=cl, main="Lake_Water_Quality 2016-2020")
 dev.off()
 
 ## 
 library(ncdf4)
-
-## proviamo a fare fapar invece
-setwd("/Users/giulia/pro/fapar")
-fapar10 <- raster("c_gls_FAPAR_201001240000_GLOBE_VGT_V1.4.1.nc")
-fapar19 <- raster("c_gls_FAPAR_201901240000_GLOBE_PROBAV_V1.5.1.nc")
-
-ext <- c(57,61, 42,47)
-faparcrop10 <- crop(fapar10, ext)
-faparcrop19 <- crop(fapar19, ext)
-
-par(mfrow=c(1,2)) 
-levelplot(faparcrop10)
-levelplot(faparcrop19)
-## FA CACARE NON VA BENE 
 
 
 ## ndvi 
