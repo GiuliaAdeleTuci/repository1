@@ -132,13 +132,58 @@ par(mfrow=c(1,2))
 plotRGB(ndvi16, r=5, g=4, b=3, stretch="Lin") ## lentissimo rifare 
 plotRGB(ndvi20, r=5, g=4, b=3, stretch="Lin")
 
+
+## tentativo con immagini NASA 
+ndvi2000 <- brick("NDVI2020.TIFF")
+ndvi2020 <- brick("NDVI2000")
+
+ext <- c(57,61, 42,47)
+ndvicrop00 <- crop(ndvi2000, ext)
+ndvicrop20 <- crop(ndvi2020, ext)
+
+par(mfrow=c(1,2))
+plotRGB(ndvicrop00, r=3, g=2, b=1, stretch="Lin")
+plotRGB(ndvicrop20, r=3, g=2, b=1, stretch="Lin")
+
+
+## 
+ndvi00 <- brick("c_gls_NDVI_200001010000_GLOBE_VGT_V2.2.1.nc")
+ndvi20 <- brick("c_gls_NDVI_202001010000_GLOBE_PROBAV_V2.2.1.nc")
+
+ndvicrop00 <- crop(ndvi00, ext)
+ndvicrop20 <- crop(ndvi20, ext)
+
+par(mfrow=c(1,2)) 
+plotRGB(ndvicrop00, r=5, g=4, b=3, stretch="Lin") 
+plotRGB(ndvicrop20, r=5, g=4, b=3, stretch="Lin")
+
+## proviamo a fare fapar invece
+setwd("/Users/giulia/pro/fapar")
+fapar10 <- raster("c_gls_FAPAR_201001240000_GLOBE_VGT_V1.4.1.nc")
+fapar19 <- raster("c_gls_FAPAR_201901240000_GLOBE_PROBAV_V1.5.1.nc")
+
+ext <- c(57,61, 42,47)
+faparcrop10 <- crop(fapar10, ext)
+faparcrop19 <- crop(fapar19, ext)
+
+par(mfrow=c(1,2)) 
+levelplot(faparcrop10)
+levelplot(faparcrop19)
+## FA CACARE NON VA BENE 
+
+
+
+
+
+
+
+
 ## con ndvi pensavo di fare che li plotto in rgb e poi con il ir sul rosso e poi vedo la dif tipo 
-## alla fine ho fatto: cose visive aral, il boxplot va rifatto!
+
 ## roba sulla land cover per vedere l'ambiente vicino -> desertico, vedi se è dovuto principalmetne al lago o no su internet!!
-## ho tanomalies e netprod con immagini vedi che fare (come aral)
-## ho ndvi, lswt, swi da copernicus vedi se usarli 
+
 ## ho fatto anche i plot della qualità del lago con crop, vedi un po' cosa significano i valori 
-## è tutto in pro in giulia
+
 ## due siti: copernicus e quello NASA, e quello con immagini aral 
 ## vedi che altre robe di comandi fatti aggiungere. sicuro roba ndvi poi le altre cose sono se devo fare robe nuove più che altro 
 ## ricordati alla fine di mettere il codice nel code exam e mettere dei commenti vaghi, più che altro sul perchè sto facendo le cose 
