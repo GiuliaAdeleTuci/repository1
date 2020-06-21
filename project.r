@@ -1,4 +1,5 @@
 
+## analysis on the land cover around the lake to see the type of environments and if there are changes through time 
 setwd("/Users/giulia/pro/landcovercl")
 library(raster)
 library(RStoolbox)
@@ -25,7 +26,7 @@ par(mfrow=c(1,2))
 plot(lcover01, col=cl, main="Land Cover 2001")
 plot(lcover01, col=cl, main="Land Cover 2011")
 
-# let's import them together 
+# let's import everything together 
 rlist <- list.files(pattern="LandCover")
 rlist
 
@@ -38,7 +39,7 @@ pdf("land_cover.pdf")
 plot(land.multitemp, col=cl)
 dev.off()
 
-# now let's just plot the Aral sea area
+# now let's just plot the Aral sea area area
 lcover1 <- brick("LandCover2001.TIFF")
 lcover11 <- brick("LandCover2011")
 
@@ -57,6 +58,7 @@ plot(Land_Cover_2011c, col=cl, main="LandCover_2011")
 dev.off()
 
 ## Analysis of the satellite images of the Aral sea, from NASA website
+## to see the trend of the dimentions of the lake during the past years 
 setwd("/Users/giulia/pro/aral")
 rlist <- list.files(pattern="aralsea")
 rlist
@@ -79,6 +81,8 @@ pdf("aral_dif.pdf")
 plot(dif, col=cld, main="Difference 2000-2018")
 dev.off()
 
+# other analyses to see the variation in the dimensions in a more statistical way 
+# the boxplot 
 boxplot(Ar, outline=F, horizontal=T, axes=T, main="Boxplot_Variation_2000-2018")
 pdf("aralboxplot.pdf")
 boxplot(Ar, outline=F, horizontal=T, axes=T, main="Boxplot_Variation_2000-2018")
@@ -93,7 +97,7 @@ plot(Ar$aralsea_2000, Ar$aralsea_2018, main="Plot_Variation_Area", pch=20, cex=0
 abline(0,1, col='red')
 dev.off()
 
-# Analysis on lake water quality 
+## Analysis on lake water quality 
 setwd("/Users/giulia/pro/lake")
 
 rlist <- list.files(pattern="LWQ")
@@ -119,11 +123,7 @@ pdf("Lakewq.pdf")
 plot(extension, col=cl, main="Lake_Water_Quality 2016-2020")
 dev.off()
 
-## 
-library(ncdf4)
-
-
-## ndvi 
+## ndvi, to see if the vegetation is present and healthy 
 setwd("/Users/giulia/pro/ndvi")
 ndvi2000 <- brick("NDVI2020.TIFF")
 ndvi2020 <- brick("NDVI2000")
@@ -145,6 +145,7 @@ dev.off()
 dif <- ndvicrop00 - ndvicrop20 
 cld <- colorRampPalette(c('yellow','orange','red'))(100)
 
+# i'm saving with png because the pdf format is out of focus and i cannot appreciate the differences 
 png("NDVI_diff.png")
 plot(dif, col=cld, main="Difference_2000-2020_NDVI")
 dev.off()
@@ -154,15 +155,6 @@ par(mfrow=c(1,2))
 plot(ndvicrop00, col=cl, main="NDVI_2000")
 plot(ndvicrop20, col=cl, main="NDVI_2020")
 dev.off()
-## con ndvi pensavo di fare che li plotto in rgb e poi con il ir sul rosso e poi vedo la dif tipo 
-
-## roba sulla land cover per vedere l'ambiente vicino -> desertico, vedi se è dovuto principalmetne al lago o no su internet!!
-
-## ho fatto anche i plot della qualità del lago con crop, vedi un po' cosa significano i valori 
-
-## due siti: copernicus e quello NASA, e quello con immagini aral 
-## vedi che altre robe di comandi fatti aggiungere. sicuro roba ndvi poi le altre cose sono se devo fare robe nuove più che altro 
-## ricordati alla fine di mettere il codice nel code exam e mettere dei commenti vaghi, più che altro sul perchè sto facendo le cose 
 
 
 
