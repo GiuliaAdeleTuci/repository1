@@ -1264,30 +1264,15 @@ plot(Ar$aralsea_2000, Ar$aralsea_2018, main="Plot_Variation_Area", pch=20, cex=0
 abline(0,1, col='red')
 dev.off()
 
-## Analysis on lake water quality 
-setwd("/Users/giulia/pro/lake")
+## Analysis on lake salinity
+setwd("/Users/giulia/pro/salt")
+sal <- read.table("sal.csv", head=T, sep=",")
+attach(sal) 
+scatter.smooth(x=years,y=salinity, cex=0.6, col="red", xlab="years", ylab="Salinity - g/l", main="Salinity of Aral sea 1950-2000")
 
-rlist <- list.files(pattern="LWQ")
-rlist
-
-import <- lapply(rlist, raster) 
-
-lwq.multitemp <- stack(import)
-
-cl <- colorRampPalette(c("red","yellow","blue"))(100)
-plot(lwq.multitemp, col=cl)
-
-library(rgdal)
-
-# define the extent
-ext <- c(57,61, 42,47)
-extension <- crop(lwq.multitemp, ext)
-plot(extension, col=cl, main="Lake_Water_Quality 2016-2020")
-
-# save 
-cld <- colorRampPalette(c("blue","yellow","red"))(100)
-pdf("Lakewq.pdf")
-plot(extension, col=cl, main="Lake_Water_Quality 2016-2020")
+# save
+pdf("Lakesalt.pdf")
+scatter.smooth(x=years,y=salinity, cex=0.6, col="red", xlab="years", ylab="Salinity - g/l", main="Salinity of Aral sea 1950-2000")
 dev.off()
 
 ## ndvi, to see if the vegetation is present and healthy 
