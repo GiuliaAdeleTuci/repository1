@@ -23,6 +23,7 @@
 ## 1. R code first 
 # first R code
 install.packages("sp") # function to install packages into R, we have to use the quotes because we go "outside R", Quotes are used for general text 
+# sp: Classes and methods for spatial data, you can create maps etc
 
 library(sp) # to recall the package, can also use require() 
 data(meuse) # to load the meuse dataset 
@@ -50,7 +51,7 @@ plot(zinc,copper,col="red",pch=19,cex=2) # cex = to change the dimension of the 
 
 install.packages("sp")
 install.packages("GGally")
-library(GGally)
+library(GGally) # GGally is a plotting package, allows to create pretty plots 
 library(sp) # or require(sp)
 
 data(meuse) 
@@ -594,7 +595,7 @@ cld <- colorRampPalette(c('blue','white','red'))(100)
 plot(difdvi, col=cld) 
 # like this we can see where we have lost the forests. -> we see the loss of ecosystem functions (red parts = loss in biomass and related services)
 
-#to make an histogram 
+# to make an histogram 
 hist(difdvi) 
 
 ##############################################################################################################
